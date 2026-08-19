@@ -64,5 +64,5 @@ const copyCode = async () => {
 .copy-btn { background: #475569; color: white; border: none; border-radius: 6px; padding: 8px 16px; font-size: 0.9rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.2s, transform 0.1s; }
 .copy-btn:active { transform: scale(0.95); }
 .copy-btn:hover { background: #64748b; }
-.code-content { margin: 0; padding: 20px; overflow-x: auto; color: #f8fafc; font-family: 'Consolas', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.5; white-space: pre; }
+.code-content { margin: 0; padding: 20px; overflow-x: auto; overflow-y: auto; max-height: 400px; color: #f8fafc; font-family: 'Consolas', 'Courier New', Courier, monospace; font-size: 0.95rem; line-height: 1.5; white-space: pre; }
 </style>

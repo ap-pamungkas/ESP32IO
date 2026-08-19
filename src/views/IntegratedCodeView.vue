@@ -223,6 +223,8 @@ const copyCode = async () => {
   margin: 0;
   padding: 20px;
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
   color: #f8fafc;
   font-family: 'Consolas', 'Courier New', Courier, monospace;
   font-size: 0.95rem;
