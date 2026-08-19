@@ -48,7 +48,7 @@ GPIO 2 ─── Resistor 220Ω ─── Anoda LED
 .nav-bar { width: 100%; max-width: 900px; display: flex; justify-content: flex-start; margin-bottom: 2rem; }
 .back-btn { 
   padding: 0.6rem 1.2rem; cursor: pointer; 
-  background: var(--wiring-out-color); color: var(--text-inverted); 
+  background: var(--wiring-out-color); color: var(--text-main); 
   border: var(--border-thick); 
   box-shadow: var(--brutal-shadow-sm); 
   font-weight: 900; font-size: 1rem; 
@@ -89,7 +89,7 @@ GPIO 2 ─── Resistor 220Ω ─── Anoda LED
 .content-section h3 { margin-top: 0; color: var(--text-main); font-weight: 900; text-transform: uppercase; }
 .content-section p, .content-section ul { color: var(--text-main); font-weight: 700; line-height: 1.6; font-size: 1.1rem; }
 .ascii-art {
-  width: 100%; background: var(--code-bg); color: var(--output-color);
+  width: 100%; background: var(--code-bg); color: var(--code-text);
   padding: 1.5rem; border: var(--border-thick);
   font-family: 'Consolas', 'Courier New', Courier, monospace;
   font-size: 1.2rem; font-weight: bold; overflow-x: auto;
@@ -98,6 +98,7 @@ GPIO 2 ─── Resistor 220Ω ─── Anoda LED
 .inline-schema {
   background: var(--output-color); padding: 10px 15px; border: var(--border-thick);
   display: inline-block; margin-bottom: 1.5rem; box-shadow: 2px 2px 0px var(--shadow-color);
+  color: var(--text-main);
 }
-.inline-schema code { color: var(--text-inverted); font-weight: 900; }
+.inline-schema code { color: var(--text-main); font-weight: 900; }
 </style>

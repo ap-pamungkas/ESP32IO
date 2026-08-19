@@ -62,7 +62,7 @@ const copyCode = async () => {
 .nav-bar { width: 100%; max-width: 900px; display: flex; justify-content: flex-start; margin-bottom: 2rem; }
 .back-btn { 
   padding: 0.6rem 1.2rem; cursor: pointer; 
-  background: var(--input-color); color: var(--text-inverted); 
+  background: var(--input-color); color: var(--text-main); 
   border: var(--border-thick); 
   box-shadow: var(--brutal-shadow-sm); 
   font-weight: 900; font-size: 1rem; 
@@ -112,6 +112,7 @@ const copyCode = async () => {
 .inline-schema {
   background: var(--surface-color); padding: 10px 15px; border: var(--border-thick);
   display: inline-block; margin-bottom: 1.5rem; box-shadow: 2px 2px 0px var(--shadow-color);
+  color: var(--text-main);
 }
-.inline-schema code { color: var(--text-inverted); font-weight: 900; }
+.inline-schema code { color: var(--text-main); font-weight: 900; }
 </style>
