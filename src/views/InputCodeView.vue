@@ -1,25 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { selectedInput } from '../state/projectState'
 
-const codeString = `// ================================
-// INPUT ASSIGN
-// ================================
-
-const int BUTTON_PIN = 4;
-
-void inputConnected() {
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-}
-
-bool readButton() {
-  return digitalRead(BUTTON_PIN) == LOW;
-}`
+const codeString = computed(() => {
+  const input = selectedInput.value;
+  let code = `// ================================\n// INPUT ASSIGN\n// ================================\n\n`;
+  if (input.code.includes && input.code.includes.length > 0) {
+    code += input.code.includes.join('\n') + `\n\n`;
+  }
+  code += `${input.code.assign}\n\n`;
+  code += `${input.code.read}`;
+  return code;
+})
 
 const isCopied = ref(false)
 
 const copyCode = async () => {
   try {
-    await navigator.clipboard.writeText(codeString)
+    await navigator.clipboard.writeText(codeString.value)
     isCopied.value = true
     setTimeout(() => {
       isCopied.value = false
@@ -37,9 +35,9 @@ const copyCode = async () => {
     </div>
     
     <div class="doc-container">
-      <h1>Documentasi Input Assign Code</h1>
+      <h1>Documentasi Input Assign Code ({{ selectedInput.name }})</h1>
       <p class="description">
-        Kode di bawah ini berfungsi sebagai modul input pada sistem. Pin diatur dengan pull-up internal (<code>INPUT_PULLUP</code>), dan membaca logika rendah (<code>LOW</code>) saat tombol ditekan.
+        {{ selectedInput.beginnerExplanation.code }}
       </p>
 
       <div class="code-block-wrapper">

@@ -1,4 +1,5 @@
 <script setup>
+import { selectedOutput } from '../state/projectState'
 </script>
 
 <template>
@@ -9,28 +10,20 @@
     
     <div class="doc-container">
       <h1>Dokumentasi Output Wiring</h1>
+      <p style="font-weight: 800; font-size: 1.1rem; color: var(--output-color); margin-bottom: 1rem;">
+        For: {{ selectedOutput.name }}
+      </p>
       <p class="description">
-        Bagian ini menjelaskan bagaimana rangkaian hardware untuk <strong>Output</strong> (seperti LED, Relay, Motor, dll) dikonfigurasi dan dihubungkan ke mikrokontroler.
+        {{ selectedOutput.beginnerExplanation.what }}
       </p>
 
       <div class="content-section">
         <h3>Skema Rangkaian</h3>
-        <p>Sebagai contoh pada penggunaan LED, pin GPIO (misal: Pin 2) dihubungkan ke kutub positif (Anoda) LED melalui sebuah resistor pembatas arus, kemudian kutub negatif (Katoda) LED dihubungkan ke Ground (GND).</p>
+        <p>{{ selectedOutput.beginnerExplanation.wiring }}</p>
         
-        <pre class="ascii-art">
-GPIO 2 ─── Resistor 220Ω ─── Anoda LED
-                              │
-                              ▼
-                           LED
-                              │
-                              ▼
-                          Katoda LED
-                              │
-                              ▼
-                             GND
-        </pre>
+        <pre class="ascii-art">{{ selectedOutput.beginnerExplanation.asciiArt }}</pre>
 
-        <p class="inline-schema"><strong>Ringkasan Jalur:</strong> <code>GPIO 2 ───[ Resistor 220Ω ]───[ LED ]─── GND</code></p>
+        <p class="inline-schema"><strong>Ringkasan Jalur:</strong> <code>{{ selectedOutput.beginnerExplanation.wiringSchema }}</code></p>
 
         <h3>Catatan Penting:</h3>
         <ul>

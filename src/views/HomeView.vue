@@ -3,6 +3,10 @@ import CodeDocument from '../components/CodeDocument.vue'
 import ModuleBox from '../components/ModuleBox.vue'
 import WiringBlock from '../components/WiringBlock.vue'
 import { useRouter } from 'vue-router'
+import { projectState, selectedInput, selectedCommand, selectedOutput } from '../state/projectState'
+import { inputs } from '../data/inputs'
+import { commands } from '../data/commands'
+import { outputs } from '../data/outputs'
 
 const router = useRouter()
 </script>
@@ -12,6 +16,42 @@ const router = useRouter()
     <header class="edu-header">
       <h1>THE TINKER-DEVBOARD AND IO</h1>
       <p>Mari belajar bagaimana sistem bekerja!</p>
+
+      <div class="control-panel">
+        <div class="control-group">
+          <label>INPUT</label>
+          <select v-model="projectState.inputId">
+            <option v-for="input in inputs" :key="input.id" :value="input.id">{{ input.name }}</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>COMMAND</label>
+          <select v-model="projectState.commandId">
+            <option v-for="cmd in commands" :key="cmd.id" :value="cmd.id">{{ cmd.name }}</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label>OUTPUT</label>
+          <select v-model="projectState.outputId">
+            <option v-for="out in outputs" :key="out.id" :value="out.id">{{ out.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="config-summary">
+        <h2>CONFIGURATION</h2>
+        <div class="config-flow">
+          <div class="config-item input-item">{{ selectedInput.name }}</div>
+          <div class="arrow-sym">➔</div>
+          <div class="config-item command-item">{{ selectedCommand.name }}</div>
+          <div class="arrow-sym">➔</div>
+          <div class="config-item output-item">{{ selectedOutput.name }}</div>
+        </div>
+        <p class="config-description">
+          {{ selectedInput.beginnerExplanation.what }}<br/>
+          The {{ selectedCommand.name }} command decides whether the {{ selectedOutput.name }} should activate.
+        </p>
+      </div>
     </header>
 
     <div class="diagram-board">
@@ -51,21 +91,31 @@ const router = useRouter()
 
       <!-- Bottom Level -->
       <div class="row level-bottom">
-        <ModuleBox typeClass="module-in" title="Modul Input" />
+        <template v-if="selectedInput.libraries && selectedInput.libraries.length > 0">
+          <div class="library-node">
+            <ModuleBox typeClass="module-in" title="REQUIRED LIBRARY" />
+            <div class="lib-list">
+              <div v-for="lib in selectedInput.libraries" :key="lib.id">{{ lib.name }}</div>
+            </div>
+          </div>
+          <div class="arrow">➔</div>
+        </template>
+        
+        <ModuleBox typeClass="module-in" :title="selectedInput.name" />
         <div class="arrow">➔</div>
         <ModuleBox typeClass="cond-in" title="Input Conditioner" />
         <div class="arrow">➔</div>
         <ModuleBox typeClass="read-in" title="Input Read" />
         <div class="arrow">➔</div>
         
-        <ModuleBox typeClass="cmd-box" title="Command" />
+        <ModuleBox typeClass="cmd-box" :title="selectedCommand.name" />
         <div class="arrow">➔</div>
         
         <ModuleBox typeClass="write-out" title="Output Write" />
         <div class="arrow">➔</div>
         <ModuleBox typeClass="cond-out" title="Output Conditioner" />
         <div class="arrow">➔</div>
-        <ModuleBox typeClass="module-out" title="Output Module" />
+        <ModuleBox typeClass="module-out" :title="selectedOutput.name" />
       </div>
 
     </div>
@@ -115,6 +165,91 @@ const router = useRouter()
   color: var(--text-main);
   font-weight: 800;
   margin: 0;
+}
+
+.control-panel {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.control-group select {
+  padding: 0.5rem 1rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  background: var(--surface-color);
+  color: var(--text-main);
+  border: var(--border-thick);
+  box-shadow: var(--brutal-shadow-sm);
+  cursor: pointer;
+}
+
+.config-summary {
+  margin-top: 2rem;
+  background: var(--surface-color);
+  padding: 1.5rem;
+  border: var(--border-thick);
+  box-shadow: var(--brutal-shadow-sm);
+  text-align: center;
+}
+
+.config-summary h2 {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+}
+
+.config-flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.config-item {
+  padding: 0.5rem 1rem;
+  border: var(--border-thick);
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.input-item { background: var(--input-color); }
+.command-item { background: var(--command-color); }
+.output-item { background: var(--output-color); }
+
+.arrow-sym {
+  color: var(--text-main);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.config-description {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .diagram-board {

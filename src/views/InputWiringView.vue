@@ -1,4 +1,5 @@
 <script setup>
+import { selectedInput } from '../state/projectState'
 </script>
 
 <template>
@@ -8,38 +9,18 @@
     </div>
     
     <div class="doc-container">
-      <h1>Dokumentasi Input Wiring</h1>
+      <h1>Dokumentasi Input Wiring ({{ selectedInput.name }})</h1>
       <p class="description">
-        Bagian ini menjelaskan bagaimana rangkaian hardware untuk <strong>Input</strong> (seperti tombol, sensor, dll) dikonfigurasi dan dihubungkan ke mikrokontroler (contohnya ESP32).
+        {{ selectedInput.beginnerExplanation.what }}
       </p>
 
       <div class="content-section">
         <h3>Skema Rangkaian</h3>
-        <p>Pada konfigurasi <code>INPUT_PULLUP</code>, Anda hanya perlu menyambungkan pin GPIO (misal: Pin 4) ke salah satu kaki tombol, dan kaki tombol yang lain langsung disambungkan ke Ground (GND).</p>
+        <p>{{ selectedInput.beginnerExplanation.wiring }}</p>
         
-        <pre class="ascii-art">
-       ESP32
-    ┌───────────┐
-    │           │
-    │ GPIO 4 ───┼─────────┐
-    │           │         │
-    │ GND ──────┼─────┐   │
-    │           │     │   │
-    └───────────┘     │   │
-                      │   │
-                    ┌─┴───┴─┐
-                    │ BUTTON│
-                    │       │
-                    └───────┘
-        </pre>
+        <pre class="ascii-art">{{ selectedInput.beginnerExplanation.asciiArt }}</pre>
 
-        <p class="inline-schema"><strong>Ringkasan Jalur:</strong> <code>ESP32 GPIO 4 ──────[ Tactile Button ]────── GND</code></p>
-
-        <h3>Catatan Penting:</h3>
-        <ul>
-          <li>Tidak diperlukan resistor eksternal karena menggunakan resistor pull-up internal pada ESP32.</li>
-          <li>Logika aktif: <strong>LOW</strong> (Saat tombol ditekan, arus mengalir ke Ground, tegangan di pin menjadi 0V).</li>
-        </ul>
+        <p class="inline-schema"><strong>Ringkasan Jalur:</strong> <code>{{ selectedInput.beginnerExplanation.wiringSchema }}</code></p>
       </div>
     </div>
   </div>

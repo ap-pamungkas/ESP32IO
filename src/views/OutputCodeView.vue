@@ -1,19 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { selectedOutput } from '../state/projectState'
 
-const codeString = `// ================================
-// OUTPUT ASSIGN
-// ================================
-
-const int LED_PIN = 2;
-
-void outputConnected() {
-  pinMode(LED_PIN, OUTPUT);
-}
-
-void setLED(bool state) {
-  digitalWrite(LED_PIN, state ? HIGH : LOW);
-}`
+const codeString = computed(() => {
+  const output = selectedOutput.value;
+  let code = `// ================================\n// OUTPUT ASSIGN\n// ================================\n\n`;
+  if (output.code.includes && output.code.includes.length > 0) {
+    code += output.code.includes.join('\n') + `\n\n`;
+  }
+  code += `${output.code.assign}\n\n`;
+  code += `${output.code.write}`;
+  return code;
+})
 
 const isCopied = ref(false)
 
@@ -37,9 +35,12 @@ const copyCode = async () => {
     </div>
     
     <div class="doc-container">
-      <h1>Documentasi Output Assign Code</h1>
+      <h1>Dokumentasi Output Assign Code</h1>
+      <p style="font-weight: 800; font-size: 1.1rem; color: var(--output-color); margin-bottom: 1rem;">
+        For: {{ selectedOutput.name }}
+      </p>
       <p class="description">
-        Kode di bawah ini mengatur perangkat output, dalam contoh ini adalah LED. Pin diinisialisasi sebagai <code>OUTPUT</code> dan perintah <code>digitalWrite</code> digunakan untuk mengubah status LED.
+        {{ selectedOutput.beginnerExplanation.code }}
       </p>
 
       <div class="code-block-wrapper">

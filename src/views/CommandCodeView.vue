@@ -1,19 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { selectedCommand } from '../state/projectState'
 
-const codeString = `// ================================
-// COMMAND
-// ================================
-
-bool buttonCommand(bool buttonState) {
-  return buttonState;
-}`
+const codeString = computed(() => {
+  const cmd = selectedCommand.value;
+  let code = `// ================================\n// COMMAND\n// ================================\n\n`;
+  code += `${cmd.code.logic}`;
+  return code;
+})
 
 const isCopied = ref(false)
 
 const copyCode = async () => {
   try {
-    await navigator.clipboard.writeText(codeString)
+    await navigator.clipboard.writeText(codeString.value)
     isCopied.value = true
     setTimeout(() => {
       isCopied.value = false
@@ -31,9 +31,12 @@ const copyCode = async () => {
     </div>
     
     <div class="doc-container">
-      <h1>Documentasi Command Code</h1>
+      <h1>Dokumentasi Command Code</h1>
+      <p style="font-weight: 800; font-size: 1.1rem; color: var(--command-color); margin-bottom: 1rem;">
+        For: {{ selectedCommand.name }}
+      </p>
       <p class="description">
-        Kode di bawah ini merupakan lapisan command logic. Bagian ini menerima state dari input dan meneruskannya (atau memodifikasinya jika perlu) untuk dieksekusi oleh output.
+        {{ selectedCommand.description }}
       </p>
 
       <div class="code-block-wrapper">

@@ -1,84 +1,17 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { generateIntegratedCode } from '../generators/integratedGenerator'
+import { selectedInput, selectedCommand, selectedOutput } from '../state/projectState'
 
-const codeString = `// ========================================
-// ESP32 - BUTTON -> COMMAND -> LED
-// ========================================
-
-
-// ========================================
-// INPUT ASSIGN
-// ========================================
-
-const int BUTTON_PIN = 4;
-
-void inputConnected() {
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-}
-
-bool readButton() {
-  return digitalRead(BUTTON_PIN) == LOW;
-}
-
-
-// ========================================
-// COMMAND
-// ========================================
-
-bool buttonCommand(bool buttonState) {
-  return buttonState;
-}
-
-
-// ========================================
-// OUTPUT ASSIGN
-// ========================================
-
-const int LED_PIN = 2;
-
-void outputConnected() {
-  pinMode(LED_PIN, OUTPUT);
-}
-
-void setLED(bool state) {
-  digitalWrite(LED_PIN, state ? HIGH : LOW);
-}
-
-
-// ========================================
-// SETUP
-// ========================================
-
-void setup() {
-
-  inputConnected();
-  outputConnected();
-
-}
-
-
-// ========================================
-// LOOP
-// ========================================
-
-void loop() {
-
-  // INPUT
-  bool buttonState = readButton();
-
-  // COMMAND
-  bool ledCommand = buttonCommand(buttonState);
-
-  // OUTPUT
-  setLED(ledCommand);
-
-}`
+const codeString = computed(() => {
+  return generateIntegratedCode();
+})
 
 const isCopied = ref(false)
 
 const copyCode = async () => {
   try {
-    await navigator.clipboard.writeText(codeString)
+    await navigator.clipboard.writeText(codeString.value)
     isCopied.value = true
     setTimeout(() => {
       isCopied.value = false
@@ -96,9 +29,13 @@ const copyCode = async () => {
     </div>
     
     <div class="doc-container">
-      <h1>Documentasi Integrated Code</h1>
+      <h1>Dokumentasi Integrated Code</h1>
+      <p style="font-weight: 900; font-size: 1.1rem; color: var(--integrated-color); margin-bottom: 1rem;">
+        Configuration: <br/> 
+        {{ selectedInput.name }} ➔ {{ selectedCommand.name }} ➔ {{ selectedOutput.name }}
+      </p>
       <p class="description">
-        Kode di bawah ini menggabungkan modul Input, Command, dan Output menjadi satu sistem yang terintegrasi pada board ESP32. Anda dapat menyalin kode C++ berikut langsung ke IDE Anda.
+        Ini adalah kode lengkap yang menggabungkan modul Input, Command, dan Output menjadi satu kesatuan (<i>Integrated Loop</i>). Anda dapat menyalin kode ini dan menempelkannya langsung ke Arduino IDE.
       </p>
 
       <div class="code-block-wrapper">
